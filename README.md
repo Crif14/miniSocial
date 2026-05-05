@@ -57,22 +57,4 @@ Il progetto implementa le funzionalità core di Laravel (CRUD, Auth, Routing) e 
 
 ---
 
-## 🧠 Riflessioni Teoriche (Per la discussione orale)
-
-### ⚖️ Moderazione a priori: Limiti e Opportunità
-L'integrazione di una moderazione automatica "pre-invio" offre vantaggi immediati nella pulizia della community, riducendo il carico di lavoro dei moderatori umani e prevenendo il *cyberbullismo*. Tuttavia, presenta sfide etiche:
-* **Opportunità:** Ambiente più sicuro, riduzione di discorsi d'odio (Hate Speech) in tempo reale.
-* **Limiti:** Possibile censura di sarcasmo o sfumature linguistiche che l'AI potrebbe fraintendere (falsi positivi), limitando la libertà di espressione.
-
-### 🏗 Il Framework Laravel: Vantaggi e Svantaggi
-**Vantaggi:**
-* **Velocità di sviluppo:** Grazie a Eloquent ORM, Blade e i pacchetti di autenticazione (Breeze/Jetstream), il tempo di prototipazione è ridottissimo.
-* **Ecosistema:** Strumenti come Forge, Vapor e la vasta documentazione rendono il deployment e la manutenzione estremamente solidi.
-* **Sicurezza:** Protezione nativa contro SQL injection, XSS e CSRF.
-
-**Svantaggi:**
-* **Performance:** Rispetto a soluzioni minimaliste (es. Go o Node.js puro), Laravel ha un overhead maggiore dovuto al caricamento di molte classi e componenti.
-* **Curva di apprendimento:** La vastità delle "magie" di Laravel (Facade, Service Provider) può risultare complessa per chi preferisce un approccio più esplicito e meno strutturato.
-
----
-*Creato da [Tuo Nome] come progetto di approfondimento sullo sviluppo web moderno.*
+*Creato da C. Squeo,  A. Magaletti, M. Gile e S. Verroca come progetto di approfondimento sullo sviluppo web moderno.*
