@@ -1,5 +1,3 @@
----
-
 # 🚀 Chirper AI - Laravel Evolution Project
 
 **Chirper AI** è un'applicazione web basata su Laravel che evolve il concept originale della guida ufficiale "[Learn Laravel](https://laravel.com/learn/getting-started-with-laravel/what-are-we-building)". Il progetto trasforma un semplice microblogging in una piattaforma social moderna, arricchita da sistemi di moderazione automatica e ricerca semantica basata su Intelligenza Artificiale.
