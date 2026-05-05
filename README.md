@@ -1,56 +1,185 @@
-# 🚀 Chirper AI - Laravel Evolution Project
+# 🔊 Echo — Laravel School Project
 
-**Chirper AI** è un'applicazione web basata su Laravel che evolve il concept originale della guida ufficiale "[Learn Laravel](https://laravel.com/learn/getting-started-with-laravel/what-are-we-building)". Il progetto trasforma un semplice microblogging in una piattaforma social moderna, arricchita da sistemi di moderazione automatica e ricerca semantica basata su Intelligenza Artificiale.
+> *Le idee che risuonano.*
 
-## 🌟 Caratteristiche Principali
-
-Il progetto implementa le funzionalità core di Laravel (CRUD, Auth, Routing) e si spinge oltre con feature avanzate:
-
-### 🛠 Funzionalità Base (Derived from Laravel Starter)
-* **Autenticazione completa:** Registrazione e gestione profili utenti.
-* **Micro-blogging:** Creazione, visualizzazione e modifica di brevi post (Chirps).
-* **Custom UI:** Interfaccia personalizzata con un design moderno (basata su Tailwind CSS).
-
-### 🚀 Feature Evolute
-* **Commenti Multi-livello:** Possibilità per gli utenti di commentare i singoli post per favorire l'interazione.
-* **Ricerca Semantica AI:** Sistema di ricerca che non si limita alle keyword, ma comprende il contesto (es. cercare post per orientamento politico o sentiment), utilizzando vettorizzazione e AI (es. OpenAI Embeddings o simili).
-* **Daily Topic (Admin Only):** Ogni giorno viene creato un tema di discussione ufficiale, fissato in alto nella timeline. Solo gli amministratori hanno il privilegio di definire il topic giornaliero.
-* **Archivio Storico:** Sezione dedicata alla consultazione dei topic passati e dei relativi flussi di discussione.
-* **Moderazione Automatica:** Sistema di analisi del testo in tempo reale che blocca o segnala contenuti che violano la netiquette prima ancora della pubblicazione sul database.
-
-## 🛠 Tech Stack
-* **Framework:** Laravel 11
-* **Frontend:** Blade / Livewire (o Vue/Inertia a seconda della tua scelta)
-* **Database:** MySQL / PostgreSQL
-* **Styling:** Tailwind CSS
-* **AI Integration:** (Specifica qui se usi OpenAI API, LangChain o altri modelli per la ricerca semantica e moderazione).
-
-## 📥 Installazione
-
-1.  **Clona il repository:**
-    ```bash
-    git clone https://github.com/tuo-username/chirper-ai.git
-    cd chirper-ai
-    ```
-2.  **Installa le dipendenze:**
-    ```bash
-    composer install
-    npm install && npm run build
-    ```
-3.  **Configurazione ambiente:**
-    ```bash
-    cp .env.example .env
-    php artisan key:generate
-    ```
-4.  **Configura il database** nel file `.env` e avvia le migrazioni (inclusi i seed per l'admin):
-    ```bash
-    php artisan migrate --seed
-    ```
-5.  **Avvia il server:**
-    ```bash
-    php artisan serve
-    ```
+A feature-rich social platform built with Laravel, inspired by the official [Chirper tutorial](https://laravel.com/learn/getting-started-with-laravel/what-are-we-building). Extended with AI-powered moderation, semantic search, role-based access control and more.
 
 ---
 
-*Creato da C. Squeo,  A. Magaletti, M. Gile e S. Verroca come progetto di approfondimento sullo sviluppo web moderno.*
+## 📋 Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Database Schema](#database-schema)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [Author](#author)
+
+---
+
+## Overview
+
+Echo is a school project that replicates and extends the base Laravel Chirper tutorial. Users can publish posts, comment, like, and interact with a daily topic set by an admin. The platform integrates OpenAI APIs for both **automatic content moderation** (before insertion) and **semantic search** (via text embeddings).
+
+---
+
+## Features
+
+### 👥 Authentication & Roles
+- Registration, login, logout via **Laravel Breeze**
+- Two roles: `user` and `admin`
+- Admins have exclusive access to privileged actions
+
+### 📝 Posts
+- Create, edit, delete posts
+- Like/unlike system
+- Automatic AI moderation before saving to DB
+- Flagged posts are stored but hidden, with audit trail
+
+### 💬 Comments
+- Comment on individual posts
+- Full CRUD for own comments
+- AI moderation applied to comments as well
+
+### 📌 Daily Topic (Admin only)
+- Admin sets one topic per day
+- Topic is pinned at the top of the feed
+- Archive page showing past topics with associated posts
+
+### 🤖 AI — Content Moderation (Pre-insertion)
+- Every post/comment is validated through the **OpenAI Moderation API** before being saved
+- Flagged content is blocked with a user-friendly message
+- Moderation reason is stored for admin review
+
+### 🔍 AI — Semantic Search
+- Posts are indexed with **text embeddings** (OpenAI `text-embedding-3-small`)
+- Search finds posts by *meaning*, not just keyword matching
+- Similarity computed via cosine distance in PHP
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Laravel 11 |
+| Authentication | Laravel Breeze |
+| Frontend | Blade + Tailwind CSS |
+| Database | MySQL / SQLite |
+| AI — Moderation | OpenAI Moderation API |
+| AI — Search | OpenAI Embeddings API |
+| Queue (optional) | Laravel Queue (database driver) |
+
+---
+
+## Database Schema
+
+```
+users
+ ├── id, name, email, password
+ ├── role (enum: user, admin)
+ └── timestamps
+
+posts
+ ├── id, user_id (FK)
+ ├── body
+ ├── is_flagged, flagged_reason
+ └── timestamps
+
+comments
+ ├── id, post_id (FK), user_id (FK)
+ ├── body
+ ├── is_flagged
+ └── timestamps
+
+daily_topics
+ ├── id, user_id (FK)
+ ├── title, description
+ ├── topic_date (unique)
+ └── timestamps
+
+post_likes
+ ├── id, user_id (FK), post_id (FK)
+ └── created_at
+ (unique constraint on user_id + post_id)
+
+embeddings
+ ├── id, post_id (FK)
+ ├── vector (JSON)
+ └── created_at
+```
+## Getting Started
+
+### Prerequisites
+
+- PHP >= 8.2
+- Composer
+- Node.js & npm
+- MySQL or SQLite
+- An [OpenAI API key](https://platform.openai.com/api-keys)
+
+### Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/your-username/echo-social.git
+cd echo-social
+
+# 2. Install PHP dependencies
+composer install
+
+# 3. Install JS dependencies
+npm install && npm run build
+
+# 4. Copy environment file
+cp .env.example .env
+
+# 5. Generate application key
+php artisan key:generate
+
+# 6. Configure your .env (see section below)
+
+# 7. Run migrations
+php artisan migrate
+
+# 8. (Optional) Seed the database with demo data
+php artisan db:seed
+
+# 9. Start the development server
+php artisan serve
+```
+
+---
+
+## Environment Variables
+
+Add these to your `.env` file:
+
+```env
+APP_NAME=Echo
+APP_URL=http://localhost:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=echo_social
+DB_USERNAME=root
+DB_PASSWORD=
+
+# OpenAI — required for moderation and semantic search
+OPENAI_API_KEY=sk-...
+OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+```
+
+---
+
+## Author
+
+**C. Squeo, A. Magaletti, M. Gile, S. Verroca**
+School project — Panetti Pitagora Bari
+Academic year 2025/2026
+
+---
+
+> Built with ❤️ and Laravel — *Echo, le idee che risuonano.*
