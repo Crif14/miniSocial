@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:wght@700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-[#0f0f1a] text-gray-100 font-sans antialiased;
+    }
+
+    * {
+        @apply scroll-smooth;
+    }
+}
+
+@layer components {
+
+    /* Card */
+    .echo-card {
+        @apply bg-[#16162a] border border-[#1e1e38] rounded-2xl p-6 shadow-lg shadow-black/30 transition-all duration-200 hover:border-indigo-700/50;
+    }
+
+    /* Bottone primario */
+    .echo-btn {
+        @apply bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-indigo-900/40 active:scale-95 cursor-pointer;
+    }
+
+    /* Bottone ghost */
+    .echo-btn-ghost {
+        @apply border border-[#1e1e38] hover:border-indigo-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-xl transition-all duration-200 cursor-pointer;
+    }
+
+    /* Input */
+    .echo-input {
+        @apply w-full bg-[#1e1e38] border border-[#1e1e38] focus:border-indigo-500 rounded-xl px-4 py-3 text-gray-100 placeholder-gray-500 outline-none transition-colors duration-200 focus:ring-2 focus:ring-indigo-500/20;
+    }
+
+    /* Badge admin */
+    .echo-badge-admin {
+        @apply bg-indigo-600/20 text-indigo-400 border border-indigo-600/30 text-xs font-semibold px-2.5 py-0.5 rounded-full;
+    }
+
+    /* Divisore */
+    .echo-divider {
+        @apply border-t border-[#1e1e38] my-4;
+    }
+}
