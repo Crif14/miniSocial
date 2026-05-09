@@ -70,22 +70,22 @@
             <div class="echo-card mb-4">
 
                 {{-- Header post --}}
-                <div class="flex items-center justify-between mb-3">
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-600
-                                    to-purple-600 flex items-center justify-center
-                                    text-white font-bold text-sm">
-                            {{ strtoupper(substr($post->user->name, 0, 1)) }}
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-600
+                                        to-purple-600 flex items-center justify-center
+                                        text-white font-bold text-sm flex-shrink-0">
+                                {{ strtoupper(substr($post->user->name, 0, 1)) }}
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-white">
+                                    {{ $post->user->name }}
+                                </p>
+                                <p class="text-xs text-gray-500">
+                                    {{ $post->created_at->diffForHumans() }}
+                                </p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-sm font-semibold text-white">
-                                {{ $post->user->name }}
-                            </p>
-                            <p class="text-xs text-gray-500">
-                                {{ $post->created_at->diffForHumans() }}
-                            </p>
-                        </div>
-                    </div>
 
                     {{-- Elimina (solo autore o admin) --}}
                     @if($post->userId === auth()->id() || auth()->user()->isAdmin())
@@ -133,9 +133,10 @@
                 {{-- Commenti --}}
                 @foreach($post->comments as $comment)
                     <div class="flex items-start gap-3 mb-3">
-                        <div class="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-600
+                        <div class="rounded-full bg-gradient-to-br from-indigo-600
                                     to-purple-600 flex items-center justify-center
-                                    text-white font-bold text-xs flex-shrink-0">
+                                    text-white font-bold text-xs flex-shrink-0"
+                            style="width: 28px; height: 28px;">
                             {{ strtoupper(substr($comment->user->name, 0, 1)) }}
                         </div>
                         <div class="flex-1 bg-[#0f0f1a] rounded-xl px-4 py-2">
