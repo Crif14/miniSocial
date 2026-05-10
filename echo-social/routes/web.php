@@ -32,9 +32,15 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Route solo admin
     Route::middleware(['admin'])->group(function () {
         Route::get('/topics/create', [DailyTopicController::class, 'create'])->name('topics.create');
         Route::post('/topics', [DailyTopicController::class, 'store'])->name('topics.store');
+
+        // Moderazione commenti
+        Route::get('/admin/comments', [CommentController::class, 'adminIndex'])->name('admin.comments');
+        Route::post('/admin/comments/{comment}/approve', [CommentController::class, 'approve'])->name('comments.approve');
+        Route::post('/admin/comments/{comment}/reject', [CommentController::class, 'reject'])->name('comments.reject');
     });
 
     Route::get('/topics', [DailyTopicController::class, 'index'])->name('topics.index');

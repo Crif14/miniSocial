@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Services\ModerationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class CommentController extends Controller
 {
@@ -18,9 +19,18 @@ class CommentController extends Controller
         $moderation = new ModerationService();
 
         if (!$moderation->isAllowed($request->body)) {
-            return back()->withErrors([
-                'body_' . $post->id => 'Il commento è stato bloccato dalla moderazione.'
-            ])->withInput();
+            // Salva il commento ma flaggato — non visibile finché admin non approva
+            Comment::create([
+                'postId' => $post->id,
+                'userId' => auth()->id(),
+                'body' => $request->body,
+                'isFlagged' => true,
+                'flaggedAt' => Carbon::now(),
+            ]);
+
+            return back()->with('moderation_warning',
+                'Il tuo commento è in attesa di revisione da parte di un moderatore.'
+            );
         }
 
         Comment::create([
@@ -41,5 +51,44 @@ class CommentController extends Controller
         $comment->delete();
 
         return redirect()->route('posts.index');
+    }
+
+    public function approve(Comment $comment)
+    {
+        if (!auth()->user()->isAdmin()) {
+            abort(403);
+        }
+
+        $comment->update([
+            'isFlagged' => false,
+            'reviewedAt' => Carbon::now(),
+            'reviewStatus' => 'approved',
+        ]);
+
+        return redirect()->route('admin.comments');
+    }
+
+    public function reject(Comment $comment)
+    {
+        if (!auth()->user()->isAdmin()) {
+            abort(403);
+        }
+
+        $comment->update([
+            'reviewedAt' => Carbon::now(),
+            'reviewStatus' => 'rejected',
+        ]);
+
+        return redirect()->route('admin.comments');
+    }
+    public function adminIndex()
+    {
+        $pendingComments = Comment::with('user', 'post')
+            ->where('isFlagged', true)
+            ->whereNull('reviewStatus')
+            ->latest('flaggedAt')
+            ->get();
+
+        return view('admin.comments', compact('pendingComments'));
     }
 }

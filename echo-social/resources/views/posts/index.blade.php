@@ -131,7 +131,7 @@
                 </div>
 
                 {{-- Commenti --}}
-                @foreach($post->comments as $comment)
+                @foreach($post->comments->filter(fn($c) => $c->isVisible()) as $comment)
                     <div class="flex items-start gap-3 mb-3">
                         <div class="rounded-full bg-gradient-to-br from-indigo-600
                                     to-purple-600 flex items-center justify-center

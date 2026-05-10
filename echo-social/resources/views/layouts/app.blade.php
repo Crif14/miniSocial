@@ -14,7 +14,7 @@
         <div class="max-w-4xl mx-auto px-4 flex items-center justify-between h-16">
 
             {{-- Logo --}}
-            <a href="{{ route('dashboard') }}" class="flex items-center gap-2 group">
+            <a href="{{ route('posts.index') }}" class="flex items-center gap-2 group">
                 <svg class="w-8 h-8 text-indigo-500 group-hover:text-indigo-400 transition-colors"
                      viewBox="0 0 32 32" fill="none">
                     <path d="M2 16 Q7 6 12 16 Q17 26 22 16 Q27 6 30 16"
@@ -29,11 +29,23 @@
             {{-- Nav links --}}
             <div class="flex items-center gap-2">
                 @auth
-                    <a href="{{ route('dashboard') }}"
-                       class="text-gray-400 hover:text-white px-3 py-2 rounded-lg
-                              hover:bg-[#1e1e38] transition-colors text-sm font-medium">
+                    <a href="{{ route('posts.index') }}"
+                    class="px-3 py-2 rounded-lg transition-colors text-sm
+                            {{ request()->routeIs('posts.index')
+                                ? 'text-white font-bold bg-[#1e1e38]'
+                                : 'text-gray-400 hover:text-white font-medium hover:bg-[#1e1e38]' }}">
                         Feed
                     </a>
+
+                    @if(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.comments') }}"
+                        class="px-3 py-2 rounded-lg transition-colors text-sm
+                                {{ request()->routeIs('admin.comments')
+                                    ? 'text-white font-bold bg-indigo-600/30 border border-indigo-600/50'
+                                    : 'echo-badge-admin hover:bg-indigo-600/30' }}">
+                            Moderazione
+                        </a>
+                    @endif
 
                     {{-- Avatar + Dropdown --}}
                     <div class="relative ml-2" x-data="{ open: false }">
@@ -56,6 +68,18 @@
                                     {{ auth()->user()->email }}
                                 </p>
                             </div>
+                            @if(auth()->user()->isAdmin())
+                                <a href="{{ route('topics.create') }}"
+                                   class="block px-4 py-2 text-sm text-gray-300
+                                          hover:text-white hover:bg-[#1e1e38] transition-colors">
+                                    + Topic del giorno
+                                </a>
+                                <a href="{{ route('topics.index') }}"
+                                   class="block px-4 py-2 text-sm text-gray-300
+                                          hover:text-white hover:bg-[#1e1e38] transition-colors">
+                                    Storico topic
+                                </a>
+                            @endif
                             <a href="{{ route('profile.edit') }}"
                                class="block px-4 py-2 text-sm text-gray-300
                                       hover:text-white hover:bg-[#1e1e38] transition-colors">
