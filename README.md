@@ -131,7 +131,7 @@ embeddings
 - WSL2 (su Windows)
 - Git
 
-### Avvio con Laravel Sail
+### Avvio con Laravel Sail (WSL2/Mac/Linux)
 
 ```bash
 # 1. Clona il repository
@@ -157,6 +157,32 @@ cp .env.example .env
 ./vendor/bin/sail npm install && ./vendor/bin/sail npm run build
 ```
 
+### Avvio con Docker Compose (Windows PowerShell)
+
+```powershell
+# 1. Clona il repository
+git clone https://github.com/your-username/echo-social.git
+cd echo-social
+
+# 2. Copia il file environment
+copy .env.example .env
+
+# 3. Avvia i container Docker
+docker compose up -d
+
+# 4. Installa le dipendenze PHP
+docker compose exec laravel.test composer install
+
+# 5. Genera la chiave applicazione
+docker compose exec laravel.test php artisan key:generate
+
+# 6. Esegui le migrazioni
+docker compose exec laravel.test php artisan migrate
+
+# 7. Compila gli asset frontend
+docker compose exec laravel.test npm install
+docker compose exec laravel.test npm run build
+```
 Poi vai su:
 - **Sito:** `http://localhost`
 - **phpMyAdmin:** `http://localhost:8081`
