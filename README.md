@@ -11,10 +11,8 @@ Piattaforma social sviluppata con Laravel, ispirata al tutorial ufficiale [Chirp
 - [Overview](#overview)
 - [Funzionalità](#funzionalità)
 - [Tech Stack](#tech-stack)
-- [Database](#database)
 - [Installazione](#installazione)
 - [Variabili d'ambiente](#variabili-dambiente)
-- [Struttura del progetto](#struttura-del-progetto)
 - [Autore](#autore)
 
 ---
@@ -89,43 +87,6 @@ L'ambiente di sviluppo è basato su **Docker** tramite Laravel Sail, con **phpMy
 | HTTP Client | Guzzle (incluso in Laravel) |
 
 ---
-
-## Database
-
-```
-users
- ├── id, name, email, password
- ├── role (enum: user, admin)
- └── timestamps
-
-posts
- ├── id, userId (FK)
- ├── body
- ├── isFlagged, flaggedReason
- └── timestamps
-
-comments
- ├── id, postId (FK), userId (FK)
- ├── body, isFlagged
- ├── flaggedAt, reviewedAt, reviewStatus
- └── timestamps
-
-dailyTopics
- ├── id, userId (FK)
- ├── title, description
- ├── topicDate (unique)
- └── timestamps
-
-postLikes
- ├── id, userId (FK), postId (FK)
- └── createdAt
- (vincolo unique su userId + postId)
-
-embeddings
- ├── id, postId (FK)
- ├── vector (JSON)
- └── createdAt
-```
 
 ### Relazioni
 
@@ -231,68 +192,6 @@ GROQ_MODEL=llama-3.3-70b-versatile
 # HuggingFace — ricerca semantica con embeddings
 HUGGINGFACE_API_KEY=hf_la-tua-chiave
 HUGGINGFACE_EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-```
-
----
-
-## Struttura del progetto
-
-```
-app/
-├── Http/
-│   ├── Controllers/
-│   │   ├── PostController.php
-│   │   ├── CommentController.php
-│   │   ├── DailyTopicController.php
-│   │   ├── LikeController.php
-│   │   ├── SearchController.php
-│   │   └── Auth/
-│   │       ├── AuthenticatedSessionController.php
-│   │       └── RegisteredUserController.php
-│   └── Middleware/
-│       └── AdminMiddleware.php
-├── Models/
-│   ├── User.php
-│   ├── Post.php
-│   ├── Comment.php
-│   ├── DailyTopic.php
-│   ├── PostLike.php
-│   └── Embedding.php
-├── Services/
-│   ├── ModerationService.php
-│   └── EmbeddingService.php
-└── Console/
-    └── Commands/
-        └── CleanFlaggedComments.php
-
-database/migrations/
-├── create_users_table.php
-├── addRoleToUsers.php
-├── createPostsTable.php
-├── createCommentsTable.php
-├── createDailyTopicsTable.php
-├── createPostLikesTable.php
-├── createEmbeddingsTable.php
-├── addModerationFieldsToComments.php
-└── removeUnusedTables.php
-
-resources/views/
-├── layouts/
-│   ├── app.blade.php
-│   └── guest.blade.php
-├── auth/
-│   ├── login.blade.php
-│   └── register.blade.php
-├── posts/
-│   └── index.blade.php
-├── topics/
-│   ├── index.blade.php
-│   └── create.blade.php
-├── search/
-│   └── index.blade.php
-├── admin/
-│   └── comments.blade.php
-└── welcome.blade.php
 ```
 
 ---
