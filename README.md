@@ -202,22 +202,16 @@ $user->save();
 
 APP_NAME=Echo
 APP_URL=http://localhost
-
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
 DB_DATABASE=echo-social
 DB_USERNAME=sail
 DB_PASSWORD=password
-
-# Groq — moderazione contenuti
 GROQ_API_KEY=gsk_la-tua-chiave
 GROQ_MODEL=llama-3.3-70b-versatile
-
-# HuggingFace — ricerca semantica con embeddings
 HUGGINGFACE_API_KEY=hf_la-tua-chiave
 HUGGINGFACE_EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-
 
 ---
 
