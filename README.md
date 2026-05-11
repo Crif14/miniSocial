@@ -1,139 +1,86 @@
-# 🔊 Echo — Laravel School Project
 
-> *Le idee che risuonano.*
 
-Piattaforma social sviluppata con Laravel, ispirata al tutorial ufficiale [Chirper](https://laravel.com/learn/getting-started-with-laravel/what-are-we-building). Estesa con moderazione AI, ricerca semantica, ruoli e molto altro.
+Vai ai contenuti
+Utilizzo di Posta di ITT "Panetti Pitagora" con gli screen reader
 
----
+1 di 2.880
+(nessun oggetto)
+Posta in arrivo
 
-## 📋 Indice
+CRISTIAN SQUEO
+10:28 (0 minuti fa)
+a me
 
-- [Overview](#overview)
-- [Funzionalità](#funzionalità)
-- [Tech Stack](#tech-stack)
-- [Database](#database)
-- [Installazione](#installazione)
-- [Variabili d'ambiente](#variabili-dambiente)
-- [Struttura del progetto](#struttura-del-progetto)
-- [Autore](#autore)
+🔊 Echo — Laravel School Project
+Le idee che risuonano.
 
----
+Piattaforma social sviluppata con Laravel, ispirata al tutorial ufficiale Chirper. Estesa con moderazione AI, ricerca semantica, ruoli e molto altro.
 
-## Overview
+📋 Indice
+Overview
+Funzionalità
+Tech Stack
+Installazione
+Variabili d'ambiente
+Autore
+Overview
+Echo è un progetto scolastico che replica ed estende il tutorial Laravel Chirper. Gli utenti possono pubblicare post, commentare, mettere like e interagire con un topic giornaliero impostato dall'admin. La piattaforma integra Groq per la moderazione automatica dei contenuti e HuggingFace per la ricerca semantica tramite embeddings testuali.
 
-Echo è un progetto scolastico che replica ed estende il tutorial Laravel Chirper. Gli utenti possono pubblicare post, commentare, mettere like e interagire con un topic giornaliero impostato dall'admin. La piattaforma integra le API di OpenAI per la **moderazione automatica dei contenuti** (prima dell'inserimento) e la **ricerca semantica** tramite embeddings testuali.
+L'ambiente di sviluppo è basato su Docker tramite Laravel Sail, con phpMyAdmin integrato per la gestione del database.
 
-L'ambiente di sviluppo è basato su **Docker** tramite Laravel Sail, con **phpMyAdmin** integrato per la gestione del database.
-
----
-
-## Funzionalità
-
-### 👥 Autenticazione e Ruoli
-- Registrazione, login, logout tramite **Laravel Breeze**
-- Due ruoli: `user` e `admin`
-- Middleware `AdminMiddleware` per proteggere le route riservate
-- Redirect automatico al feed se già loggato
-
-### 📝 Post
-- Pubblicazione e eliminazione post
-- Sistema like/unlike
-- Moderazione AI prima del salvataggio nel DB
-- Post flaggati salvati ma nascosti, con audit trail
-
-### 💬 Commenti
-- Commenta i singoli post direttamente dal feed
-- Eliminazione commento per autore o admin
-- Moderazione AI applicata anche ai commenti
-
-### 📌 Topic del Giorno (solo Admin)
-- L'admin imposta un topic al giorno
-- Il topic è fissato in cima al feed con stile dedicato
-- Il bottone di creazione sparisce automaticamente se il topic è già stato creato oggi
-- Pagina storico con tutti i topic passati
-
-### 🤖 AI — Moderazione Contenuti (in arrivo)
-- Ogni post/commento viene validato tramite **OpenAI Moderation API** prima del salvataggio
-- I contenuti flaggati vengono bloccati con messaggio all'utente
-- Il motivo della moderazione viene salvato per revisione admin
-
-### 🔍 AI — Ricerca Semantica (in arrivo)
-- I post vengono indicizzati con **text embeddings** (OpenAI `text-embedding-3-small`)
-- La ricerca trova post per *significato*, non solo per keyword
-- Similarità calcolata tramite distanza coseno in PHP
-
----
-
-## Tech Stack
-
-| Layer | Tecnologia |
-|---|---|
-| Framework | Laravel 13 |
-| Autenticazione | Laravel Breeze |
-| Frontend | Blade + Tailwind CSS |
-| Database | MySQL 8.4 |
-| Ambiente | Docker + Laravel Sail |
-| DB Admin | phpMyAdmin |
-| AI — Moderazione | OpenAI Moderation API |
-| AI — Ricerca | OpenAI Embeddings API |
-
----
-
-## Database
-
-```
-users
- ├── id, name, email, password
- ├── role (enum: user, admin)
- └── timestamps
-
-posts
- ├── id, userId (FK)
- ├── body
- ├── isFlagged, flaggedReason
- └── timestamps
-
-comments
- ├── id, postId (FK), userId (FK)
- ├── body, isFlagged
- └── timestamps
-
-dailyTopics
- ├── id, userId (FK)
- ├── title, description
- ├── topicDate (unique)
- └── timestamps
-
-postLikes
- ├── id, userId (FK), postId (FK)
- └── createdAt
- (vincolo unique su userId + postId)
-
-embeddings
- ├── id, postId (FK)
- ├── vector (JSON)
- └── createdAt
-```
-
-### Relazioni
-
-- `User` hasMany `Post`, `Comment`, `DailyTopic`
-- `Post` hasMany `Comment` — hasOne `Embedding`
-- `Post` belongsToMany `User` tramite `postLikes`
-
----
-
-## Installazione
-
-### Prerequisiti
-
-- Docker Desktop
-- WSL2 (su Windows)
-- Git
-
-### Avvio con Laravel Sail (WSL2/Mac/Linux)
-
-```bash
+Funzionalità
+👥 Autenticazione e Ruoli
+Registrazione, login, logout tramite Laravel Breeze
+Due ruoli: user e admin
+Middleware AdminMiddleware per proteggere le route riservate
+Redirect automatico al feed se già loggato
+📝 Post
+Pubblicazione e eliminazione post
+Sistema like/unlike con toggle
+Moderazione AI (Groq) prima del salvataggio nel DB
+Embedding generato automaticamente ad ogni nuovo post
+💬 Commenti
+Commenta i singoli post direttamente dal feed
+Eliminazione commento per autore o admin
+Moderazione AI (Groq) applicata anche ai commenti
+Commenti flaggati nascosti agli utenti e inviati in revisione all'admin
+Eliminazione automatica dopo 7 giorni se non revisionati
+🛡️ Pannello Moderazione (solo Admin)
+Visualizzazione di tutti i commenti flaggati in attesa di revisione
+Possibilità di approvare (il commento torna visibile) o rifiutare (eliminato dal DB)
+Data di eliminazione automatica mostrata per ogni commento
+Comando schedulato comments:clean per pulizia automatica
+📌 Topic del Giorno (solo Admin)
+L'admin imposta un topic al giorno
+Il topic è fissato in cima al feed con stile dedicato
+Il bottone di creazione sparisce automaticamente se il topic è già stato creato oggi
+Pagina storico con tutti i topic passati
+🤖 AI — Moderazione Contenuti
+Ogni post/commento viene validato tramite Groq (llama-3.3-70b) prima del salvataggio
+I contenuti offensivi vengono bloccati con messaggio all'utente
+I commenti flaggati vengono salvati ma nascosti, in attesa di revisione admin
+🔍 AI — Ricerca Semantica
+I post vengono indicizzati con HuggingFace Embeddings (all-MiniLM-L6-v2)
+L'embedding viene generato automaticamente ad ogni nuovo post
+La ricerca trova post per significato, non solo per keyword
+Similarità calcolata tramite distanza coseno in PHP
+Barra di ricerca integrata nella navbar
+Tech Stack
+Layer	Tecnologia
+Framework	Laravel 13
+Autenticazione	Laravel Breeze
+Frontend	Blade + Tailwind CSS
+Database	MySQL 8.4
+Ambiente	Docker + Laravel Sail
+DB Admin	phpMyAdmin
+AI — Moderazione	Groq API (llama-3.3-70b-versatile)
+AI — Ricerca	HuggingFace Embeddings (all-MiniLM-L6-v2)
+Installazione
+Prerequisiti
+Docker Desktop
+WSL2 (su Windows)
+Git
+Avvio con Laravel Sail (WSL2/Mac/Linux)
 # 1. Clona il repository
 git clone https://github.com/your-username/echo-social.git
 cd echo-social
@@ -155,11 +102,7 @@ cp .env.example .env
 
 # 7. Compila gli asset frontend
 ./vendor/bin/sail npm install && ./vendor/bin/sail npm run build
-```
-
-### Avvio con Docker Compose (Windows PowerShell)
-
-```powershell
+Avvio con Docker Compose (Windows PowerShell)
 # 1. Clona il repository
 git clone https://github.com/your-username/echo-social.git
 cd echo-social
@@ -182,45 +125,35 @@ docker compose exec laravel.test php artisan migrate
 # 7. Compila gli asset frontend
 docker compose exec laravel.test npm install
 docker compose exec laravel.test npm run build
-```
 Poi vai su:
-- **Sito:** `http://localhost`
-- **phpMyAdmin:** `http://localhost:8081`
 
-### Primo Admin
-
-```bash
+Sito: http://localhost
+phpMyAdmin: http://localhost:8081
+Primo Admin
 ./vendor/bin/sail artisan tinker
 $user = App\Models\User::where('email', 'tua@email.com')->first();
 $user->role = 'admin';
 $user->save();
-```
-
----
-
-## Variabili d'ambiente
-```
+Variabili d'ambiente
 APP_NAME=Echo
 APP_URL=http://localhost
+
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
-DB_DATABASE=echo-social
+DB_DATABASE=laravel
 DB_USERNAME=sail
 DB_PASSWORD=password
+
+# Groq — moderazione contenuti AI
 GROQ_API_KEY=gsk_la-tua-chiave
 GROQ_MODEL=llama-3.3-70b-versatile
+
+# HuggingFace — ricerca semantica con embeddings
 HUGGINGFACE_API_KEY=hf_la-tua-chiave
 HUGGINGFACE_EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-```
----
+Autore
+C. Squeo, A. Magaletti, M. Gile, S. Verroca Progetto scolastico — Panetti Pitagora Anno scolastico 2025/2026
 
-## Autore
+Built with ❤️ and Laravel — Echo, le idee che risuonano.
 
-**[C. Squeo, A. Magaletti, M. Gile, S. Verroca]**
-Progetto scolastico — [Panetti Pitagora]
-Anno scolastico 2025/2026
-
----
-
-> Built with ❤️ and Laravel — *Echo, le idee che risuonano.*
