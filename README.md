@@ -200,7 +200,7 @@ $user->save();
 
 ## Variabili d'ambiente
 
-```env
+env
 APP_NAME=Echo
 APP_URL=http://localhost
 
@@ -211,62 +211,14 @@ DB_DATABASE=laravel
 DB_USERNAME=sail
 DB_PASSWORD=password
 
-# OpenAI — necessario per moderazione e ricerca semantica
-OPENAI_API_KEY=sk-...
-OPENAI_EMBEDDING_MODEL=text-embedding-3-small
-```
+# Groq — moderazione contenuti
+GROQ_API_KEY=gsk_la-tua-chiave
+GROQ_MODEL=llama-3.3-70b-versatile
 
----
+# HuggingFace — ricerca semantica con embeddings
+HUGGINGFACE_API_KEY=hf_la-tua-chiave
+HUGGINGFACE_EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
 
-## Struttura del progetto
-
-```
-app/
-├── Http/
-│   ├── Controllers/
-│   │   ├── PostController.php
-│   │   ├── CommentController.php
-│   │   ├── DailyTopicController.php
-│   │   ├── LikeController.php
-│   │   └── Auth/
-│   │       ├── AuthenticatedSessionController.php
-│   │       └── RegisteredUserController.php
-│   └── Middleware/
-│       └── AdminMiddleware.php
-├── Models/
-│   ├── User.php
-│   ├── Post.php
-│   ├── Comment.php
-│   ├── DailyTopic.php
-│   ├── PostLike.php
-│   └── Embedding.php
-└── Services/
-    ├── ModerationService.php
-    └── EmbeddingService.php
-
-database/migrations/
-├── create_users_table.php
-├── addRoleToUsers.php
-├── createPostsTable.php
-├── createCommentsTable.php
-├── createDailyTopicsTable.php
-├── createPostLikesTable.php
-└── createEmbeddingsTable.php
-
-resources/views/
-├── layouts/
-│   ├── app.blade.php
-│   └── guest.blade.php
-├── auth/
-│   ├── login.blade.php
-│   └── register.blade.php
-├── posts/
-│   └── index.blade.php
-├── topics/
-│   ├── index.blade.php
-│   └── create.blade.php
-└── welcome.blade.php
-```
 
 ---
 
