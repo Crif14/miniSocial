@@ -11,10 +11,10 @@
 
     {{-- NAVBAR --}}
     <nav class="sticky top-0 z-50 bg-[#0f0f1a]/80 backdrop-blur-md border-b border-[#1e1e38]">
-        <div class="max-w-4xl mx-auto px-4 flex items-center justify-between h-16">
+        <div class="max-w-5xl mx-auto px-4 flex items-center justify-between h-16 gap-4">
 
             {{-- Logo --}}
-            <a href="{{ route('posts.index') }}" class="flex items-center gap-2 group">
+            <a href="{{ route('posts.index') }}" class="flex items-center gap-2 group flex-shrink-0">
                 <svg class="w-8 h-8 text-indigo-500 group-hover:text-indigo-400 transition-colors"
                      viewBox="0 0 32 32" fill="none">
                     <path d="M2 16 Q7 6 12 16 Q17 26 22 16 Q27 6 30 16"
@@ -26,23 +26,48 @@
                 </span>
             </a>
 
+            {{-- Barra di ricerca --}}
+            @auth
+                <form method="GET" action="{{ route('search.index') }}"
+                      class="w-64">
+                    <div class="relative">
+                        <input type="text" name="q"
+                               value="{{ request('q') }}"
+                               placeholder="Cerca..."
+                               class="w-full bg-[#1e1e38] border border-[#1e1e38]
+                                      focus:border-indigo-500 rounded-xl px-4 py-2 pr-10
+                                      text-gray-100 placeholder-gray-500 text-sm
+                                      outline-none transition-colors duration-200
+                                      focus:ring-2 focus:ring-indigo-500/20">
+                        <button type="submit"
+                                class="absolute right-3 top-1/2 -translate-y-1/2
+                                       text-gray-500 hover:text-indigo-400 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            @endauth
+
             {{-- Nav links --}}
             <div class="flex items-center gap-2">
                 @auth
                     <a href="{{ route('posts.index') }}"
-                    class="px-3 py-2 rounded-lg transition-colors text-sm
-                            {{ request()->routeIs('posts.index')
-                                ? 'text-white font-bold bg-[#1e1e38]'
-                                : 'text-gray-400 hover:text-white font-medium hover:bg-[#1e1e38]' }}">
+                       class="px-3 py-2 rounded-lg transition-colors text-sm
+                              {{ request()->routeIs('posts.index')
+                                 ? 'text-white font-bold bg-[#1e1e38]'
+                                 : 'text-gray-400 hover:text-white font-medium hover:bg-[#1e1e38]' }}">
                         Feed
                     </a>
 
                     @if(auth()->user()->isAdmin())
                         <a href="{{ route('admin.comments') }}"
-                        class="px-3 py-2 rounded-lg transition-colors text-sm
-                                {{ request()->routeIs('admin.comments')
-                                    ? 'text-white font-bold bg-indigo-600/30 border border-indigo-600/50'
-                                    : 'echo-badge-admin hover:bg-indigo-600/30' }}">
+                           class="px-3 py-2 rounded-lg transition-colors text-sm
+                                  {{ request()->routeIs('admin.comments')
+                                     ? 'text-white font-bold bg-indigo-600/30 border border-indigo-600/50'
+                                     : 'echo-badge-admin hover:bg-indigo-600/30' }}">
                             Moderazione
                         </a>
                     @endif

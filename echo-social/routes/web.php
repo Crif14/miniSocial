@@ -44,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('/topics', [DailyTopicController::class, 'index'])->name('topics.index');
+    // Ricerca semantica
+    Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+    Route::post('/search/embeddings', [SearchController::class, 'generateEmbeddings'])->name('search.embeddings');
 });
 
 require __DIR__.'/auth.php';

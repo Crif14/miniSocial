@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\DailyTopic;
+use App\Models\Embedding;
 use App\Services\ModerationService;
+use App\Services\EmbeddingService;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -35,10 +37,22 @@ class PostController extends Controller
             ])->withInput();
         }
 
-        Post::create([
+        $post = Post::create([
             'userId' => auth()->id(),
             'body' => $request->body,
         ]);
+
+        // Genera embedding automaticamente
+        try {
+            $embeddingService = new EmbeddingService();
+            $vector = $embeddingService->getEmbedding($post->body);
+            Embedding::create([
+                'postId' => $post->id,
+                'vector' => $vector,
+            ]);
+        } catch (\Exception $e) {
+            // Se HuggingFace non è disponibile, il post viene pubblicato comunque
+        }
 
         return redirect()->route('posts.index');
     }
