@@ -9,11 +9,11 @@
 </head>
 <body class="h-full bg-[#0f0f1a]">
 
-    {{-- NAVBAR --}}
+    <!-- NAVBAR: Fissa in alto con effetto sfocatura (glassmorphism) -->
     <nav class="sticky top-0 z-50 bg-[#0f0f1a]/80 backdrop-blur-md border-b border-[#1e1e38]">
         <div class="max-w-5xl mx-auto px-4 flex items-center justify-between h-16 gap-4">
 
-            {{-- Logo --}}
+            <!-- Logo dell'applicazione -->
             <a href="{{ route('posts.index') }}" class="flex items-center gap-2 group flex-shrink-0">
                 <svg class="w-8 h-8 text-indigo-500 group-hover:text-indigo-400 transition-colors"
                      viewBox="0 0 32 32" fill="none">
@@ -26,7 +26,7 @@
                 </span>
             </a>
 
-            {{-- Barra di ricerca --}}
+            <!-- Barra di ricerca: visibile solo agli utenti autenticati -->
             @auth
                 <form method="GET" action="{{ route('search.index') }}"
                       class="w-64">
@@ -39,6 +39,7 @@
                                       text-gray-100 placeholder-gray-500 text-sm
                                       outline-none transition-colors duration-200
                                       focus:ring-2 focus:ring-indigo-500/20">
+                        <!-- Icona lente di ingrandimento (Cerca) -->
                         <button type="submit"
                                 class="absolute right-3 top-1/2 -translate-y-1/2
                                        text-gray-500 hover:text-indigo-400 transition-colors">
@@ -51,9 +52,10 @@
                 </form>
             @endauth
 
-            {{-- Nav links --}}
+            <!-- Links di navigazione destro -->
             <div class="flex items-center gap-2">
                 @auth
+                    <!-- Link al Feed principale -->
                     <a href="{{ route('posts.index') }}"
                        class="px-3 py-2 rounded-lg transition-colors text-sm
                               {{ request()->routeIs('posts.index')
@@ -62,6 +64,7 @@
                         Feed
                     </a>
 
+                    <!-- Link Moderazione: visibile solo agli Amministratori -->
                     @if(auth()->user()->isAdmin())
                         <a href="{{ route('admin.comments') }}"
                            class="px-3 py-2 rounded-lg transition-colors text-sm
@@ -72,8 +75,9 @@
                         </a>
                     @endif
 
-                    {{-- Avatar + Dropdown --}}
+                    <!-- Menu Dropdown Utente: gestito con Alpine.js -->
                     <div class="relative ml-2" x-data="{ open: false }">
+                        <!-- Bottone Avatar (iniziale del nome) -->
                         <button @click="open = !open"
                                 class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-600
                                        to-purple-600 flex items-center justify-center text-white
@@ -81,10 +85,13 @@
                                        hover:ring-indigo-500/60 transition-all">
                             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                         </button>
+                        
+                        <!-- Lista opzioni dropdown -->
                         <div x-show="open" @click.outside="open = false"
                              x-transition
                              class="absolute right-0 mt-2 w-48 bg-[#16162a] border border-[#1e1e38]
                                     rounded-xl shadow-xl shadow-black/50 py-1 z-50">
+                            <!-- Info Utente Loggato -->
                             <div class="px-4 py-2 border-b border-[#1e1e38]">
                                 <p class="text-sm font-semibold text-white truncate">
                                     {{ auth()->user()->name }}
@@ -93,6 +100,8 @@
                                     {{ auth()->user()->email }}
                                 </p>
                             </div>
+
+                            <!-- Azioni Admin nel Dropdown -->
                             @if(auth()->user()->isAdmin())
                                 <a href="{{ route('topics.create') }}"
                                    class="block px-4 py-2 text-sm text-gray-300
@@ -105,6 +114,8 @@
                                     Storico topic
                                 </a>
                             @endif
+
+                            <!-- Link al Profilo e Logout -->
                             <a href="{{ route('profile.edit') }}"
                                class="block px-4 py-2 text-sm text-gray-300
                                       hover:text-white hover:bg-[#1e1e38] transition-colors">
@@ -121,17 +132,16 @@
                         </div>
                     </div>
                 @else
+                    <!-- Pulsanti visibili solo se l'utente NON è loggato -->
                     <a href="{{ route('login') }}" class="echo-btn-ghost text-sm">Accedi</a>
                     <a href="{{ route('register') }}" class="echo-btn text-sm">Registrati</a>
                 @endauth
             </div>
         </div>
     </nav>
-
-    {{-- CONTENUTO --}}
+    <!-- AREA CONTENUTO: Qui viene iniettato il contenuto delle singole pagine -->
     <main class="max-w-4xl mx-auto px-4 py-8">
         {{ $slot }}
     </main>
-
 </body>
 </html>
