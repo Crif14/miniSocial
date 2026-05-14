@@ -161,15 +161,6 @@ Poi vai su:
 - **Sito:** `http://localhost`
 - **phpMyAdmin:** `http://localhost:8081`
 
-### Primo Admin
-
-```bash
-./vendor/bin/sail artisan tinker
-$user = App\Models\User::where('email', 'tua@email.com')->first();
-$user->role = 'admin';
-$user->save();
-```
-
 ---
 
 ## Variabili d'ambiente
