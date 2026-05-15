@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\PasswordController;
 
 // Queste rotte sono accessibili solo se l'utente non ha ancora effettuato il login
 Route::middleware('guest')->group(function () {

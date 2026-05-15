@@ -8,9 +8,8 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
-/*
-ROTTA DI WELCOME
-*/
+
+//ROTTA DI WELCOME
 Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('posts.index');

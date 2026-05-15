@@ -1,62 +1,130 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:wght@700;900&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-    body {
-        @apply bg-[#0f0f1a] text-gray-100 font-sans antialiased;
-    }
-
-    input, textarea, select {
-        @apply text-gray-100 bg-[#1e1e38];
-    }
-
-    input::placeholder, textarea::placeholder {
-        @apply text-gray-500;
-    }
+/*VARIABILI (Per gestire i colori in un solo posto)*/
+:root {
+    --bg-main: #0f0f1a;
+    --bg-card: #16162a;
+    --bg-input: #1e1e38;
+    --border-color: #1e1e38;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --text-placeholder: #6b7280;
+    --primary: #4f46e5;
+    --primary-hover: #6366f1;
+    --primary-light: rgba(79, 70, 229, 0.2);
+    --primary-border: rgba(79, 70, 229, 0.3);
 }
 
-@layer components {
+/*BASE*/
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+}
 
-    /* Card */
-    .echo-card {
-        @apply bg-[#16162a] border border-[#1e1e38] rounded-2xl p-6
-               shadow-lg shadow-black/30 transition-all duration-200
-               hover:border-indigo-700/50;
-    }
+input,
+textarea,
+select {
+    color: var(--text-main);
+    background-color: var(--bg-input);
+    font-family: inherit;
+}
 
-    /* Bottone primario */
-    .echo-btn {
-        @apply bg-indigo-600 hover:bg-indigo-500 text-white font-semibold
-               px-5 py-2.5 rounded-xl transition-all duration-200
-               shadow-md shadow-indigo-900/40 active:scale-95 cursor-pointer;
-    }
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-placeholder);
+}
 
-    /* Bottone ghost */
-    .echo-btn-ghost {
-        @apply border border-[#1e1e38] hover:border-indigo-600 text-gray-300
-               hover:text-white px-5 py-2.5 rounded-xl transition-all duration-200
-               cursor-pointer;
-    }
+/* COMPONENTI*/
 
-    /* Input */
-    .echo-input {
-        @apply w-full bg-[#1e1e38] border border-[#1e1e38] focus:border-indigo-500
-               rounded-xl px-4 py-3 text-gray-100 placeholder-gray-500
-               outline-none transition-colors duration-200
-               focus:ring-2 focus:ring-indigo-500/20;
-    }
+/* Card */
+.echo-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+}
 
-    /* Badge admin */
-    .echo-badge-admin {
-        @apply bg-indigo-600/20 text-indigo-400 border border-indigo-600/30
-               text-xs font-semibold px-2.5 py-0.5 rounded-full;
-    }
+.echo-card:hover {
+    border-color: rgba(67, 56, 202, 0.5);
+}
 
-    /* Divisore */
-    .echo-divider {
-        @apply border-t border-[#1e1e38] my-4;
-    }
+/* Bottone primario */
+.echo-btn {
+    background-color: var(--primary);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.75rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(49, 46, 129, 0.4);
+    transition: all 0.2s ease;
+}
+
+.echo-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.echo-btn:active {
+    transform: scale(0.95);
+}
+
+/* Bottone ghost */
+.echo-btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: #d1d5db;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.echo-btn-ghost:hover {
+    border-color: var(--primary);
+    color: #ffffff;
+}
+
+/* Input */
+.echo-input {
+    width: 100%;
+    box-sizing: border-box;
+    /* Evita che l'input esca dai bordi per via del padding */
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-main);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.echo-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+/* Badge admin */
+.echo-badge-admin {
+    display: inline-block;
+    background-color: var(--primary-light);
+    color: #818cf8;
+    border: 1px solid var(--primary-border);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+}
+
+/* Divisore */
+.echo-divider {
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    margin: 1rem 0;
 }
