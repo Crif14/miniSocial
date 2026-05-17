@@ -2,7 +2,7 @@
 
 > *Le idee che risuonano.*
 
-Piattaforma social sviluppata con Laravel, ispirata al tutorial ufficiale [Chirper](https://laravel.com/learn/getting-started-with-laravel/what-are-we-building). Estesa con moderazione AI, ricerca semantica, ruoli e molto altro.
+Piattaforma social sviluppata con Laravel, ispirata al tutorial ufficiale [Chirper](https://laravel.com/learn/getting-started-with-laravel/what-are-we-building). Estesa con moderazione AI, ricerca semantica, ruoli e molto altro
 
 ---
 
