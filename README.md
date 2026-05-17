@@ -1,4 +1,4 @@
-# 🔊 Echo — Laravel School Project .
+# 🔊 Echo — Laravel School Project 
 
 > *Le idee che risuonano.*
 
